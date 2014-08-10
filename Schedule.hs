@@ -24,7 +24,7 @@ type Schedule = [Day]
 --Adds Xs ("is-off") to the shift list to pair up with non-working people
 padShifts :: Int -> ShiftList -> ShiftList
 padShifts nPeople shifts =
-    shifts ++ (take (nPeople - length shifts) $ repeat 'X')
+    shifts ++ replicate (nPeople - length shifts) 'X'
 
 --Randomly assigns people shifts
 randomFillShifts :: [Person] -> ShiftList -> IO [Shift]
