@@ -22,12 +22,8 @@ type Schedule = [Day]
 
 ran = randomRIO
 
---Assumes that Nothing's have already been filtered
-extJust :: Maybe a -> a 
-extJust (Just a) = a
-
 selectJustsM :: IO [Maybe a] -> IO [a]
-selectJustsM mayActs = mayActs >>= return . map extJust . filter isJust
+selectJustsM mayActs = mayActs >>= return . map fromJust . filter isJust
 
 randomElem :: [a] -> IO a
 randomElem list = do
@@ -122,3 +118,4 @@ getStretchList sched =
 noonesWorkingLongerThen :: Int -> Schedule -> Bool
 noonesWorkingLongerThen daysLong sched =
     not . any (>daysLong) $ getStretchList sched
+
