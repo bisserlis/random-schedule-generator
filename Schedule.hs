@@ -21,11 +21,9 @@ data Shift = Shift Char Person deriving (Eq, Show)
 type Schedule = [Day]
 
 randomElem :: [a] -> IO a
-randomElem list = do
-    let enumLimit = (length list) - 1
-    r <- randomRIO (0,enumLimit)
-    let e = [e | (n,e) <- zip [0..enumLimit] list, n == r]
-    return $ head e
+randomElem l = do
+    i <- randomRIO (0, length l - 1)
+    return $ list !! i
 
 shuffle :: Eq e => [e] -> IO [e]
 shuffle [] = return []
