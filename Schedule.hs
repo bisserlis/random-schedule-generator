@@ -29,10 +29,9 @@ padShifts nPeople shifts =
 --Randomly assigns people shifts
 randomFillShifts :: [Person] -> ShiftList -> IO [Shift]
 randomFillShifts people shifts = do
+    let paddedShifts = padShifts (length people) shifts
     shuffledPeople <- shuffleM people
-    return $ map (\(p,s) -> Shift s p) (zip shuffledPeople paddedShifts)
-    where
-        paddedShifts = padShifts (length people) shifts
+    return $ zipWith Shift paddedShifts shuffledPeople 
 
 randomDay :: Int -> [Person] -> ShiftList -> IO Day
 randomDay day people shifts = do
