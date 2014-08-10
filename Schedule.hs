@@ -12,6 +12,7 @@
 import Data.List
 import Data.Maybe
 import System.Random
+import System.Random.Shuffle (shuffleM)
 
 type ShiftList = String
 data Day = Day Int [Shift] deriving (Eq, Show)
@@ -19,19 +20,6 @@ type Person = String
 data Shift = Shift Char Person deriving (Eq, Show)
 
 type Schedule = [Day]
-
-randomElem :: [a] -> IO a
-randomElem l = do
-    i <- randomRIO (0, length l - 1)
-    return $ list !! i
-
-shuffle :: Eq e => [e] -> IO [e]
-shuffle [] = return []
-shuffle list = do
-    re <- randomElem list
-    let restList = delete re list
-    recur <- shuffle restList
-    return $ re : recur
 
 --Adds Xs ("is-off") to the shift list to pair up with non-working people
 padShifts :: Int -> ShiftList -> ShiftList
@@ -41,7 +29,7 @@ padShifts nPeople shifts =
 --Randomly assigns people shifts
 randomFillShifts :: [Person] -> ShiftList -> IO [Shift]
 randomFillShifts people shifts = do
-    shuffledPeople <- shuffle people
+    shuffledPeople <- shuffleM people
     return $ map (\(p,s) -> Shift s p) (zip shuffledPeople paddedShifts)
     where
         paddedShifts = padShifts (length people) shifts
