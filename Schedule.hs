@@ -22,8 +22,8 @@ type Schedule = [Day]
 
 ran = randomRIO
 
-selectJustsM :: IO [Maybe a] -> IO [a]
-selectJustsM mayActs = mayActs >>= return . map fromJust . filter isJust
+selectJusts :: [Maybe a] -> [a]
+selectJusts = map fromJust . filter isJust
 
 randomElem :: [a] -> IO a
 randomElem list = do
@@ -72,7 +72,7 @@ getTestSched = do
 
 testLoop :: Int -> [Person] -> ShiftList -> Int -> IO [Schedule]
 testLoop days people shifts trys =
-    selectJustsM $ mapM (\t-> do
+    fmap selectJusts $ mapM (\t-> do
         putStr $ if t `rem` 10000 == 0 then "Try number " ++ show t ++ "\n"
             else ""
         s <- getRandomSchedule days people shifts
