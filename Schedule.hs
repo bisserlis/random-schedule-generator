@@ -34,9 +34,7 @@ randomFillShifts people shifts = do
     return $ zipWith Shift paddedShifts shuffledPeople 
 
 randomDay :: Int -> [Person] -> ShiftList -> IO Day
-randomDay day people shifts = do
-    rshifts <- randomFillShifts people shifts 
-    return $ Day day rshifts
+randomDay day people shifts = fmap (Day day) (randomFillShifts people shifts)
 
 getRandomSchedule :: Int -> [Person] -> ShiftList -> IO Schedule
 getRandomSchedule days people shifts = mapM (\day ->
