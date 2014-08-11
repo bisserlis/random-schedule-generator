@@ -37,8 +37,8 @@ randomDay :: Int -> [Person] -> ShiftList -> IO Day
 randomDay day people shifts = fmap (Day day) (randomFillShifts people shifts)
 
 getRandomSchedule :: Int -> [Person] -> ShiftList -> IO Schedule
-getRandomSchedule days people shifts = mapM (\day ->
-    randomDay day people shifts) [0..(days - 1)]
+getRandomSchedule days people shifts = 
+    sequence [randomDay day people shifts | day <- [0..days - 1]]
 
 getTestSched :: IO Schedule
 getTestSched = do
