@@ -42,16 +42,16 @@ getRandomSchedule days people shifts =
 
 testLoop :: Int -> [Person] -> ShiftList -> Int -> IO [Schedule]
 testLoop days people shifts trys =
-    fmap catMaybes $ mapM (\t-> do
-        putStr $ if t `rem` 10000 == 0 then "Try number " ++ show t ++ "\n"
-            else ""
+    fmap catMaybes $ mapM (\t -> do
+        putStr $ if t `rem` 10000 == 0
+                     then "Try number " ++ show t ++ "\n"
+                     else ""
         s <- getRandomSchedule days people shifts
         if pred s
             then return $ Just s
-        else return Nothing) [0..trys]
+            else return Nothing) [0..trys]
         where
             pred s = noonesWorkingLongerThen 7 s
-
 
 main :: IO ()
 main = do
