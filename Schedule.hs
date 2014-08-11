@@ -68,8 +68,8 @@ getStaffList (Day _ shifts: _) = map person shifts
     where person (Shift _ p) = p
 
 hasOff :: Person -> Day -> Bool
-person `hasOff` (Day _ shifts) =
-    any (== True) $ map (\(Shift shift p) -> shift == 'X' && p == person) shifts
+p `hasOff` (Day _ shifts) = all isOff shifts
+    where isOff (Shift s q) = p /= q || s == 'X'
 
 longestStreak :: Eq e => e -> [e] -> Int
 longestStreak toMatch list =
