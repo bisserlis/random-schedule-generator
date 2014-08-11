@@ -72,11 +72,11 @@ p `hasOff` (Day _ shifts) = all isOff shifts
     where isOff (Shift s q) = p /= q || s == 'X'
 
 longestStreak :: Eq e => e -> [e] -> Int
-longestStreak e l  = maximum . (0:) -- Identity element, in case of no matches
-                   . map length
-                   . filter (e `matchesGroup`)
-                   . groupBy (==)
-                   $ l
+longestStreak e l = maximum . (0:) -- Identity element, in case of no matches
+                  . map length
+                  . filter (e `matchesGroup`)
+                  . groupBy (==)
+                  $ l
     where matchesGroup _ []     = False
           matchesGroup e (x:xs) = e == x
 
