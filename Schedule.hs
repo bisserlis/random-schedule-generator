@@ -40,14 +40,6 @@ getRandomSchedule :: Int -> [Person] -> ShiftList -> IO Schedule
 getRandomSchedule days people shifts = 
     sequence [randomDay day people shifts | day <- [0..days - 1]]
 
-getTestSched :: IO Schedule
-getTestSched = do
-    let days = 30
-        people = ["Brendon","Erin","Kenton","Troy"]
-        shifts = "DEXX"
-    s <- getRandomSchedule days people shifts
-    return s
-
 testLoop :: Int -> [Person] -> ShiftList -> Int -> IO [Schedule]
 testLoop days people shifts trys =
     fmap catMaybes $ mapM (\t-> do
