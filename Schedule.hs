@@ -67,8 +67,8 @@ getStaffList []                = []
 getStaffList (Day _ shifts: _) = map person shifts
     where person (Shift _ p) = p
 
-isOffOn :: Person -> Day -> Bool
-person `isOffOn` (Day _ shifts) =
+hasOff :: Person -> Day -> Bool
+person `hasOff` (Day _ shifts) =
     any (== True) $ map (\(Shift shift p) -> shift == 'X' && p == person) shifts
 
 longestStreak :: Eq e => e -> [e] -> Int
@@ -80,7 +80,7 @@ longestStreak toMatch list =
 getStretchList :: Schedule -> [Int]
 getStretchList sched =
     map (\person -> 
-        longestStreak False $ map (\day -> person `isOffOn` day) sched) staffList
+        longestStreak False $ map (\day -> person `hasOff` day) sched) staffList
     where
         staffList = getStaffList sched 
 
