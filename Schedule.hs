@@ -63,8 +63,9 @@ main = do
     return ()
 
 getStaffList :: Schedule -> [Person]
-getStaffList (cDay:_) = let (Day _ shifts) = cDay in
-    map (\(Shift _ p) -> p) shifts
+getStaffList []                = []
+getStaffList (Day _ shifts: _) = map person shifts
+    where person (Shift _ p) = p
 
 isOffOn :: Person -> Day -> Bool
 person `isOffOn` (Day _ shifts) =
